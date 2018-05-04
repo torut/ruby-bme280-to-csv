@@ -9,7 +9,7 @@ require "date"
 now = DateTime.now
 
 # 0時の実行だったら前日のデータを対象にする
-if now.hour == 0
+if now.hour == 0 && now.minute < 30
   now = now.prev_day
 end
 
