@@ -7,7 +7,6 @@ today = now.strftime('%Y%m%d')
 
 # 年/月 のディレクトリを作成してその中にYYYYMMDD.csvがある
 month_dir = now.strftime('%Y/%m');
-p month_dir;
 if !Dir.exist?('./data/' + month_dir)
   require 'fileutils'
   FileUtils.mkdir_p('./data/' + month_dir);
