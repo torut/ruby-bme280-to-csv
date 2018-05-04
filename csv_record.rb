@@ -13,8 +13,17 @@ bme.update
 
 # 書き出すCSVファイルは日付をファイル名にする
 require "date"
-today = DateTime.now.strftime('%Y%m%d')
-today_data_file = File.expand_path('./data/' + today + '.csv', __dir__)
+now = DateTime.now;
+today = now.strftime('%Y%m%d')
+
+# 年/月 のディレクトリを作成してその中にYYYYMMDD.csvを作成する
+month_dir = now.strftime('%Y/%m');
+p month_dir;
+if !Dir.exist?('./data/' + month_dir)
+  require 'fileutils'
+  FileUtils.mkdir_p('./data/' + month_dir);
+end
+today_data_file = File.expand_path(sprintf('./data/%s/%s.csv', month_dir, today), __dir__)
 
 # CSV形式で書き出す
 # 追記モードで開いてCSV形式で1行追記する
