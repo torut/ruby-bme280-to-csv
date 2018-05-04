@@ -2,8 +2,20 @@
 
 # 読み込むCSVファイル
 require "date"
-today = DateTime.now.strftime('%Y%m%d')
-today_data_file = File.expand_path('./data/' + today + '.csv', __dir__)
+now = DateTime.now
+today = now.strftime('%Y%m%d')
+
+# 年/月 のディレクトリを作成してその中にYYYYMMDD.csvがある
+month_dir = now.strftime('%Y/%m');
+p month_dir;
+if !Dir.exist?('./data/' + month_dir)
+  require 'fileutils'
+  FileUtils.mkdir_p('./data/' + month_dir);
+end
+
+# CSVファイルとグラフファイル
+today_data_file = File.expand_path(sprintf('./data/%s/%s.csv', month_dir, today), __dir__)
+graph_file = File.expand_path(sprintf('./data/%s/%s.png', month_dir, today), __dir__)
 
 # CSVを読み込む
 require "csv"
@@ -23,6 +35,7 @@ g.data '湿度', dataset[:humidity],    '#008A83' # 緑系
 
 # 時間ラベルの間隔(8項目表示する)
 x_axis_interval = (dataset[:time].size / 8).to_i
+x_axis_interval = 1 if x_axis_interval == 0
 
 # X軸のラベルを入れる
 require 'time'
@@ -39,5 +52,4 @@ g.labels = x_axis
 g.font = '/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf'
 
 # 画像ファイルで保存する
-graph_file = File.expand_path('./data/' + today + '.png', __dir__)
 g.write(graph_file)
