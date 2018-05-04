@@ -32,13 +32,13 @@ db_client = DropboxApi::Client.new(ENV['DROPBOX_API_TOKEN'])
 
 if File.exist?(data_file)
   db_client.upload(
-    sprintf('/%s/%s.csv', month_dir, date), IO.read(data_file)
+    sprintf('/%s/%s.csv', month_dir, date), IO.read(data_file), :mode => :overwrite
   )
 end
 
 if File.exist?(graph_file)
   db_client.upload(
-    sprintf('/%s/%s.png', month_dir, date), IO.read(graph_file)
+    sprintf('/%s/%s.png', month_dir, date), IO.read(graph_file), :mode => :overwrite
   )
 end
 
